@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Description: Utility functions for providing status reporting messages in the shell.
+# Usage: print_message "doing stuff"; print_ok;
+# Output: doing stuff [OK]
+
+# Formats argument $1 as a status message (yellow text) with trailing [OK].
+# Use "print_ok" to print trailing [OK].
+print_message () {
+  local default_msg="Processing..."
+  local message=${1:-$default_msg}
+  COLS=$(tput cols)
+  printf "${yellow}%-$((COLS-7))s${coloroff}" "$message"
+  return
+}
+
+# Prints tailing [OK] message. Use after print_message "message" command.
+print_ok () {
+  printf "[${green}%-4s${coloroff}]\n" " OK "
+  return
+}
+
+# Prints tailing [FAILED] message. Use after print_message "message" command.
+print_failed () {
+  printf "[${red}%-4s${coloroff}]\n" "FAIL"
+  return
+}
+
+# Prints tailing [WARNING] message. Use after print_message "message" command.
+print_warning () {
+  printf "[${magenta}%-4s${coloroff}]\n" "WARN"
+  return
+}
